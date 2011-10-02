@@ -69,13 +69,8 @@ function __fab_completion() {
     case "${cur}" in
         --*)
             if [[ -z "${__FAB_COMPLETION_LONG_OPT}" ]]; then
-                export __FAB_COMPLETION_LONG_OPT="
-                    --help --version --list --shortlist --list-format=
-                    --display= --reject-unknown-hosts --disable-known-hosts
-                    --user= --password= --hosts= --roles= --exclude-hosts=
-                    --no_agent --no-keys --fabfile= --warn-only --shell=
-                    --config= --hide= --show= --no-pty --abort-on-prompts
-                    --keepalive="
+                export __FAB_COMPLETION_LONG_OPT=$(
+                    fab --help | egrep -o "\-\-[A-Za-z_\-]+\=?" | sort -u)
             fi
             opts="${__FAB_COMPLETION_LONG_OPT}"
             ;;
