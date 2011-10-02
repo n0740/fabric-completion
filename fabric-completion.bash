@@ -31,21 +31,22 @@ function __fab_file_mtime() {
 
 #
 # Return time of last fab cache file modification as seconds since Epoch
-# TODO: use __fab_file_mtime() to get mtime
 #
 function __fab_chache_mtime() {
     __fab_file_mtime $FAB_COMPLETION_CACHED_TASKS_FILENAME
 }
 
 
+#
 # Return time of last fabfile file/module modification as seconds since Epoch
+#
 function __fab_fabfile_mtime() {
     local f="fabfile"
     if [[ -e "$f.py" ]]; then
         __fab_file_mtime "$f.py"
     else
         # Suppose that it's a fabfile dir
-        find $f/*.py -exec stat -f '%m' {} + | sort -n -r | head -1
+        find $f/*.py -exec __fab_file_mtime {} + | sort -n -r | head -1
     fi
 }
 
