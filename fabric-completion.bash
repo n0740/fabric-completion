@@ -82,8 +82,8 @@ function __fab_completion() {
 
         -*)
             if [[ -z "${__FAB_COMPLETION_SHORT_OPT}" ]]; then
-                export __FAB_COMPLETION_SHORT_OPT="
-                    -h -V -l -F -d -r -D -u -p -H -R -x -i -a -k -f -w -s -c"
+                export __FAB_COMPLETION_SHORT_OPT=$(
+                    fab --help | awk '/^ +-[A-Za-z]/ {print $1}' | tr -d ',')
             fi
             opts="${__FAB_COMPLETION_SHORT_OPT}"
             ;;
