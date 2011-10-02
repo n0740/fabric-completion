@@ -92,8 +92,8 @@ function __fab_completion() {
             # Build a list of the available tasks
             if [[ $FAB_COMPLETION_CACHE_TASKS -eq 1 ]]; then
                 # If use cache
-                if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} || $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]; then
-                    echo "init cache"
+                if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} ||
+                      $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]; then
                     fab --shortlist > ${FAB_COMPLETION_CACHED_TASKS_FILENAME}
                 fi
                 opts=$(cat ${FAB_COMPLETION_CACHED_TASKS_FILENAME})
