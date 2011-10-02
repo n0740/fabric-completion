@@ -8,6 +8,10 @@
 #
 
 
+export FAB_COMPLETION_CACHE_TASKS=1
+export FAB_COMPLETION_CACHED_TASKS_FILENAME=".fab_tasks~"
+
+
 function __fab_completion() {
     # Return if
     # - fab command doesn't exists
@@ -44,7 +48,17 @@ function __fab_completion() {
 
         *)
             # Build a list of the available tasks
-            opts=$(fab --shortlist)
+            if [[ $FAB_COMPLETION_CACHE_TASKS -eq 1 ]]; then
+                # If use cache
+                if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} ]]; then
+                    # File.mtime(cache_file) >= File.mtime(rakefile)
+                    fab --shortlist > ${FAB_COMPLETION_CACHED_TASKS_FILENAME}
+                fi
+                opts=$(cat ${FAB_COMPLETION_CACHED_TASKS_FILENAME})
+            else
+                # Without cache
+                opts=$(fab --shortlist)
+            fi
             ;;
     esac
 
