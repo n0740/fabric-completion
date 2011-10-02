@@ -55,15 +55,12 @@ function __fab_fabfile_mtime() {
 # Completion for "fab" command
 #
 function __fab_completion() {
-    # Return if
-    # - "fab" command doesn't exists
-    # - "fabfile.py" or "fabfile" dir with "__init__.py" file doesn't exists
-    local f="fabfile"
-    [[ -e `which fab` && (-e "$f.py" || (-d "$f" && -e "$f/__init__.py")) ]] || return 0
+    # Return if "fab" command doesn't exists
+    [[ -e `which fab` ]] || return 0
 
     # Variables to hold the current word and possible matches
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    local opts
+    local opts=()
 
     # Generate possible matches and store them in variable "opts"
     case "${cur}" in
@@ -84,17 +81,21 @@ function __fab_completion() {
             ;;
 
         *)
-            # Build a list of the available tasks
-            if [[ $FAB_COMPLETION_CACHE_TASKS -eq 1 ]]; then
-                # If use cache
-                if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} ||
-                      $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]; then
-                    fab --shortlist > ${FAB_COMPLETION_CACHED_TASKS_FILENAME}
+            # If "fabfile.py" or "fabfile" dir with "__init__.py" file exists
+            local f="fabfile"
+            if [[ -e "$f.py" || (-d "$f" && -e "$f/__init__.py") ]]; then
+                # Build a list of the available tasks
+                if [[ $FAB_COMPLETION_CACHE_TASKS -eq 1 ]]; then
+                    # If use cache
+                    if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} ||
+                          $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]; then
+                        fab --shortlist > ${FAB_COMPLETION_CACHED_TASKS_FILENAME}
+                    fi
+                    opts=$(cat ${FAB_COMPLETION_CACHED_TASKS_FILENAME})
+                else
+                    # Without cache
+                    opts=$(fab --shortlist)
                 fi
-                opts=$(cat ${FAB_COMPLETION_CACHED_TASKS_FILENAME})
-            else
-                # Without cache
-                opts=$(fab --shortlist)
             fi
             ;;
     esac
