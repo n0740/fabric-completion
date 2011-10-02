@@ -44,16 +44,19 @@ function __fab_fabfile_mtime() {
     if [[ -e "$f.py" ]]; then
         __fab_file_mtime "$f.py"
     else
-        # Suppose it's a fabfile dir
+        # Suppose that it's a fabfile dir
         find $f/*.py -exec stat -f '%m' {} + | sort -n -r | head -1
     fi
 }
 
 
+#
+# Completion for "fab" command
+#
 function __fab_completion() {
     # Return if
-    # - fab command doesn't exists
-    # - fabfile.py or fabfile dir with __init__.py doesn't exists
+    # - "fab" command doesn't exists
+    # - "fabfile.py" or "fabfile" dir with "__init__.py" file doesn't exists
     local f="fabfile"
     [[ -e `which fab` && (-e "$f.py" || (-d "$f" && -e "$f/__init__.py")) ]] || return 0
 
