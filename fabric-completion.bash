@@ -83,7 +83,7 @@ function __fab_completion() {
         -*)
             if [[ -z "${__FAB_COMPLETION_SHORT_OPT}" ]]; then
                 export __FAB_COMPLETION_SHORT_OPT=$(
-                    fab --help | awk '/^ +-[A-Za-z]/ {print $1}' | tr -d ',')
+                    fab --help | egrep -o "^ +\-[A-Za-z_\]" | sort -u)
             fi
             opts="${__FAB_COMPLETION_SHORT_OPT}"
             ;;
