@@ -1,10 +1,13 @@
 #!/bin/bash
-# 
+#
 # Bash completion support for Fabric (http://fabfile.org/)
 #
 # Thanks to:
-# - Adam Vandenberg, https://github.com/ricobl/dotfiles/blob/master/bin/fab_bash_completion
-# - Enrico Batista da Luz, https://github.com/adamv/dotfiles/blob/master/completion_scripts/fab_completion.bash
+# - Adam Vandenberg,
+#   https://github.com/ricobl/dotfiles/blob/master/bin/fab_bash_completion
+#
+# - Enrico Batista da Luz,
+#   https://github.com/adamv/dotfiles/blob/master/completion_scripts/fab_completion.bash
 #
 
 
