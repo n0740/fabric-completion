@@ -30,7 +30,7 @@ function __fab_file_mtime() {
 
 
 #
-# Return time of last fab cache file modification as seconds since Epoch
+# Get time of last fab cache file modification as seconds since Epoch
 #
 function __fab_chache_mtime() {
     __fab_file_mtime $FAB_COMPLETION_CACHED_TASKS_FILENAME
@@ -38,7 +38,7 @@ function __fab_chache_mtime() {
 
 
 #
-# Return time of last fabfile file/module modification as seconds since Epoch
+# Get time of last fabfile file/module modification as seconds since Epoch
 #
 function __fab_fabfile_mtime() {
     local f="fabfile"
