@@ -12,28 +12,23 @@ export FAB_COMPLETION_CACHE_TASKS=1
 export FAB_COMPLETION_CACHED_TASKS_FILENAME=".fab_tasks~"
 
 
-#
-# Return time of last file modification as seconds since Epoch
-# TODO: check on Linux
-#
-function __fab_file_mtime() {
-    local file=$1
-    case `uname` in
-        Darwin|FreeBSD)
-            echo `stat -f '%m' $file`
-            ;;
-        *)
-            echo `stat -c '%Y' $file`
-            ;;
-    esac
-}
+# Set command to get time of last file modification as seconds since Epoch
+case `uname` in
+    Darwin|FreeBSD)
+        __FAB_COMPLETION_MTIME_COMMAND="stat -f '%m'"
+        ;;
+    *)
+        __FAB_COMPLETION_MTIME_COMMAND="stat -c '%Y'"
+        ;;
+esac
 
 
 #
 # Get time of last fab cache file modification as seconds since Epoch
 #
 function __fab_chache_mtime() {
-    __fab_file_mtime $FAB_COMPLETION_CACHED_TASKS_FILENAME
+    ${__FAB_COMPLETION_MTIME_COMMAND} \
+        $FAB_COMPLETION_CACHED_TASKS_FILENAME | xargs -n 1 expr
 }
 
 
@@ -43,10 +38,11 @@ function __fab_chache_mtime() {
 function __fab_fabfile_mtime() {
     local f="fabfile"
     if [[ -e "$f.py" ]]; then
-        __fab_file_mtime "$f.py"
+        ${__FAB_COMPLETION_MTIME_COMMAND} "$f.py" | xargs -n 1 expr
     else
         # Suppose that it's a fabfile dir
-        find $f/*.py -exec __fab_file_mtime {} + | sort -n -r | head -1
+        find $f/*.py -exec ${__FAB_COMPLETION_MTIME_COMMAND} {} + \
+            | xargs -n 1 expr | sort -n -r | head -1
     fi
 }
 
