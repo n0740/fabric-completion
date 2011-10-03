@@ -92,12 +92,13 @@ function __fab_completion() {
                     # If use cache
                     if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} ||
                           $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]; then
-                        fab --shortlist > ${FAB_COMPLETION_CACHED_TASKS_FILENAME}
+                        fab --shortlist > ${FAB_COMPLETION_CACHED_TASKS_FILENAME} \
+                            2> /dev/null
                     fi
                     opts=$(cat ${FAB_COMPLETION_CACHED_TASKS_FILENAME})
                 else
                     # Without cache
-                    opts=$(fab --shortlist)
+                    opts=$(fab --shortlist 2> /dev/null)
                 fi
             fi
             ;;
