@@ -8,7 +8,11 @@
 #
 
 
+# If set to 1 completion will use cache for tasks, otherwise
+# command "fab --shortlist" will be excecuted every time
 export FAB_COMPLETION_CACHE_TASKS=1
+
+# File name where task cache will be stored in current dir
 export FAB_COMPLETION_CACHED_TASKS_FILENAME=".fab_tasks~"
 
 
