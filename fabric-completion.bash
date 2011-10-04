@@ -4,10 +4,10 @@
 #
 # Thanks to:
 # - Adam Vandenberg,
-#   https://github.com/ricobl/dotfiles/blob/master/bin/fab_bash_completion
+#   https://github.com/adamv/dotfiles/blob/master/completion_scripts/fab_completion.bash
 #
 # - Enrico Batista da Luz,
-#   https://github.com/adamv/dotfiles/blob/master/completion_scripts/fab_completion.bash
+#   https://github.com/ricobl/dotfiles/blob/master/bin/fab_bash_completion
 #
 
 
