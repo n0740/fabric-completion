@@ -67,7 +67,7 @@ function __fab_completion() {
 
     # Generate possible matches and store them in variable "opts"
     case "${cur}" in
-        --*)
+        -*)
             if [[ -z "${__FAB_COMPLETION_LONG_OPT}" ]]; then
                 export __FAB_COMPLETION_LONG_OPT=$(
                     fab --help | egrep -o "\-\-[A-Za-z_\-]+\=?" | sort -u)
@@ -75,13 +75,15 @@ function __fab_completion() {
             opts="${__FAB_COMPLETION_LONG_OPT}"
             ;;
 
-        -*)
-            if [[ -z "${__FAB_COMPLETION_SHORT_OPT}" ]]; then
-                export __FAB_COMPLETION_SHORT_OPT=$(
-                    fab --help | egrep -o "^ +\-[A-Za-z_\]" | sort -u)
-            fi
-            opts="${__FAB_COMPLETION_SHORT_OPT}"
-            ;;
+        # Completion for short options is not nessary.
+        # It's left here just for history.
+        # -*)
+        #     if [[ -z "${__FAB_COMPLETION_SHORT_OPT}" ]]; then
+        #         export __FAB_COMPLETION_SHORT_OPT=$(
+        #             fab --help | egrep -o "^ +\-[A-Za-z_\]" | sort -u)
+        #     fi
+        #     opts="${__FAB_COMPLETION_SHORT_OPT}"
+        #     ;;
 
         *)
             # If "fabfile.py" or "fabfile" dir with "__init__.py" file exists
