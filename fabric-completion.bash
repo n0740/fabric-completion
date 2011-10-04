@@ -12,7 +12,7 @@
 
 
 # Use cache files for fab tasks or not.
-# If set to "false" command "fab --shortlist" will be excecuted every time.
+# If set to "false" command "fab --shortlist" will be executed every time.
 export FAB_COMPLETION_CACHE_TASKS=true
 
 # File name where tasks cache will be stored (in current dir).
