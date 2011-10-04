@@ -14,6 +14,7 @@
 # If set to 1 completion will use cache for tasks, otherwise
 # command "fab --shortlist" will be excecuted every time
 export FAB_COMPLETION_CACHE_TASKS=1
+export FAB_COMPLETION_CACHE_TASKS=true
 
 # File name where task cache will be stored in current dir
 export FAB_COMPLETION_CACHED_TASKS_FILENAME=".fab_tasks~"
@@ -90,7 +91,7 @@ function __fab_completion() {
             local f="fabfile"
             if [[ -e "$f.py" || (-d "$f" && -e "$f/__init__.py") ]]; then
                 # Build a list of the available tasks
-                if [[ $FAB_COMPLETION_CACHE_TASKS -eq 1 ]]; then
+                if $FAB_COMPLETION_CACHE_TASKS; then
                     # If use cache
                     if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} ||
                           $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]; then
