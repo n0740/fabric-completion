@@ -3,7 +3,7 @@
 
 ## Features
 
-This script provides completion for `fab` tasks and long options.
+This script provides completion for `fab`'s tasks and long options.
 
 All available tasks are cached in special file to speed up the response. Cache file with tasks updates on every `fabfile` modification.
 
