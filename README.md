@@ -1,9 +1,9 @@
-# Bash completion for [fabric](http://fabfile.org)
+# Bash completion for [Fabric](http://fabfile.org)
 
 
 ## Features
 
-This script provides completion for `fab`'s tasks and long options.
+This script provides completion for `fab` tasks and long options.
 
 All available tasks are cached in special file to speed up the response. Cache file with tasks updates on every `fabfile` modification.
 
@@ -21,7 +21,7 @@ Download and add to your `.bashrc` file:
 
 There are two params:
 
-* Use cache files for fab tasks or not.
+* Use cache files for `fab` tasks or not.
 
     Enabled on default. To disable add to your `.bashrc`:
 
