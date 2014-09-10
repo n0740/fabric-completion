@@ -41,7 +41,7 @@ export FAB_COMPLETION_CACHED_TASKS_FILENAME=".fab_tasks~"
 
 
 # Set command to get time of last file modification as seconds since Epoch
-case `uname` in
+case $(uname) in
     Darwin|FreeBSD)
         __FAB_COMPLETION_MTIME_COMMAND="stat -f '%m'"
         ;;
@@ -55,7 +55,7 @@ esac
 # Get time of last fab cache file modification as seconds since Epoch
 #
 function __fab_chache_mtime() {
-    ${__FAB_COMPLETION_MTIME_COMMAND} \
+    $__FAB_COMPLETION_MTIME_COMMAND \
         $FAB_COMPLETION_CACHED_TASKS_FILENAME | xargs -n 1 expr
 }
 
@@ -65,12 +65,12 @@ function __fab_chache_mtime() {
 #
 function __fab_fabfile_mtime() {
     local f="fabfile"
-    if [[ -e "$f.py" ]]; then
-        ${__FAB_COMPLETION_MTIME_COMMAND} "$f.py" | xargs -n 1 expr
+    if [[ -e "${f}.py" ]]; then
+        $__FAB_COMPLETION_MTIME_COMMAND "${f}.py" | xargs -n 1 expr
     else
         # Suppose that it's a fabfile dir
-        find $f/*.py -exec ${__FAB_COMPLETION_MTIME_COMMAND} {} + \
-            | xargs -n 1 expr | sort -n -r | head -1
+        find $f/*.py -exec $__FAB_COMPLETION_MTIME_COMMAND {} + \
+            | xargs -n 1 expr | sort -nr | head -1
     fi
 }
 
@@ -80,35 +80,36 @@ function __fab_fabfile_mtime() {
 #
 function __fab_completion() {
     # Return if "fab" command doesn't exists
-    [[ -e `which fab 2> /dev/null` ]] || return 0
+    [[ -e $(which fab 2> /dev/null) ]] || return 0
 
     # Variables to hold the current word and possible matches
     local cur="${COMP_WORDS[COMP_CWORD]}"
     local opts=()
 
     # Generate possible matches and store them in variable "opts"
-    case "${cur}" in
+    case "$cur" in
         -*)
-            if [[ -z "${__FAB_COMPLETION_LONG_OPT}" ]]; then
+            if [[ -z "$__FAB_COMPLETION_LONG_OPT" ]]; then
                 export __FAB_COMPLETION_LONG_OPT=$(
                     fab --help | egrep -o "\-\-[A-Za-z_\-]+\=?" | sort -u)
             fi
-            opts="${__FAB_COMPLETION_LONG_OPT}"
+            opts="$__FAB_COMPLETION_LONG_OPT"
             ;;
 
         *)
             # If "fabfile.py" or "fabfile" dir with "__init__.py" file exists
             local f="fabfile"
-            if [[ -e "$f.py" || (-d "$f" && -e "$f/__init__.py") ]]; then
+            if [[ -e "${f}.py" || (-d "$f" && -e "$f/__init__.py") ]]; then
                 # Build a list of the available tasks
                 if $FAB_COMPLETION_CACHE_TASKS; then
                     # If use cache
-                    if [[ ! -s ${FAB_COMPLETION_CACHED_TASKS_FILENAME} ||
-                          $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]; then
-                        fab --shortlist > ${FAB_COMPLETION_CACHED_TASKS_FILENAME} \
+                    if [[ ! -s $FAB_COMPLETION_CACHED_TASKS_FILENAME ||
+                          $(__fab_fabfile_mtime) -gt $(__fab_chache_mtime) ]]
+                    then
+                        fab --shortlist > $FAB_COMPLETION_CACHED_TASKS_FILENAME \
                             2> /dev/null
                     fi
-                    opts=$(cat ${FAB_COMPLETION_CACHED_TASKS_FILENAME})
+                    opts=$(cat $FAB_COMPLETION_CACHED_TASKS_FILENAME)
                 else
                     # Without cache
                     opts=$(fab --shortlist 2> /dev/null)
@@ -118,6 +119,6 @@ function __fab_completion() {
     esac
 
     # Set possible completions
-    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+    COMPREPLY=($(compgen -W "$opts" -- $cur))
 }
 complete -o default -o nospace -F __fab_completion fab
