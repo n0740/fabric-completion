@@ -18,6 +18,9 @@ Download and add to your `.bashrc` file:
 source /path/to/file/fabric-completion.bash
 ```
 
+Add `.fab_tasks~` (see below) to your `.gitignore`.
+
+
 ## Settings
 
 There are two params:
