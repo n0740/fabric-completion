@@ -43,7 +43,7 @@ export FAB_COMPLETION_CACHED_TASKS_FILENAME=".fab_tasks~"
 # Set command to get time of last file modification as seconds since Epoch
 case $(uname) in
     Darwin|FreeBSD)
-        __FAB_COMPLETION_MTIME_COMMAND="stat -f '%m'"
+        __FAB_COMPLETION_MTIME_COMMAND="/usr/bin/stat -f '%m'"
         ;;
     *)
         __FAB_COMPLETION_MTIME_COMMAND="stat -c '%Y'"
